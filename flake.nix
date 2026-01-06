@@ -1,56 +1,13 @@
 {
   description = "A comprehensive NixOS/home-manager module for TidalCycles live coding";
 
-  outputs = {
-    nixpkgs,
-    flake-parts,
-    ...
-  } @ inputs: let
-    lib = nixpkgs.lib.extend (final: _super: {
-      tidalcycles = import ./lib {lib = final;};
-    });
-  in
+  outputs = {flake-parts, ...} @ inputs:
     flake-parts.lib.mkFlake {inherit inputs;} {
       systems = ["x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin"];
 
-      imports = [
-        ./flake/devshells.nix
-        ./flake/formatters.nix
-        ./flake/checks.nix
-        ./flake/packages.nix
-      ];
-
-      flake = {
-        # Home-manager modules
-        homeManagerModules = {
-          default = ./modules/home-manager;
-          tidalcycles = ./modules/home-manager/tidalcycles.nix;
-          supercollider = ./modules/home-manager/supercollider.nix;
-          superdirt = ./modules/home-manager/superdirt.nix;
-        };
-
-        # NixOS modules (optional system-level config)
-        nixosModules = {
-          default = ./modules/nixos;
-          audio = ./modules/nixos/audio.nix;
-        };
-
-        # Pre-configured profiles
-        profiles = {
-          minimal = import ./profiles/minimal.nix;
-          standard = import ./profiles/standard.nix;
-          performance = import ./profiles/performance.nix;
-          studio = import ./profiles/studio.nix;
-        };
-
-        # Overlay for custom packages
-        overlays.default = final: _prev: {
-          tidalcycles-scripts = final.callPackage ./packages {};
-        };
-
-        # Custom lib
-        lib = lib.tidalcycles;
-      };
+      # Import all flake modules from flake/
+      # This auto-imports: devshells, formatters, checks, packages, modules, profiles, overlays, lib
+      imports = [./flake];
     };
 
   inputs = {

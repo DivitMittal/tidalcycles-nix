@@ -1,4 +1,4 @@
-{lib}: {
+{lib}: let
   # Scan a directory and import all .nix files
   scanPaths = path:
     builtins.map
@@ -14,6 +14,8 @@
         (builtins.readDir path)
       )
     );
+in {
+  inherit scanPaths;
 
   # Import all files from a directory
   importAll = path: lib.attrsets.genAttrs (scanPaths path) import;
