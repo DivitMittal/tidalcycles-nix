@@ -1,0 +1,15 @@
+# Nix
+result
+result-*
+.direnv/
+.envrc
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# macOS
+.DS_Store

@@ -1,0 +1,61 @@
+-- Standard TidalCycles Boot Script
+-- Recommended configuration for most users
+
+:set -XOverloadedStrings
+:set prompt ""
+
+import Sound.Tidal.Context
+
+-- Start Tidal with configured settings
+tidal <- startTidal (superdirtTarget {oLatency = 0.1, oAddress = "127.0.0.1", oPort = 57120}) (defaultConfig {cVerbose = True, cFrameTimespan = 1/20})
+
+-- Stream controls
+let p = streamReplace tidal
+    hush = streamHush tidal
+    list = streamList tidal
+    mute = streamMute tidal
+    unmute = streamUnmute tidal
+    solo = streamSolo tidal
+    unsolo = streamUnsolo tidal
+    once = streamOnce tidal
+    asap = streamOnce tidal
+    nudgeAll = streamNudgeAll tidal
+    all = streamAll tidal
+    resetCycles = streamResetCycles tidal
+    setcps = asap . cps
+
+-- Pattern streams (12 orbits)
+let d1 = p 1
+    d2 = p 2
+    d3 = p 3
+    d4 = p 4
+    d5 = p 5
+    d6 = p 6
+    d7 = p 7
+    d8 = p 8
+    d9 = p 9
+    d10 = p 10
+    d11 = p 11
+    d12 = p 12
+
+-- Transitions
+let xfade i = transition tidal True (Sound.Tidal.Transition.xfadeIn 4) i
+    xfadeIn i t = transition tidal True (Sound.Tidal.Transition.xfadeIn t) i
+    histpan i t = transition tidal True (Sound.Tidal.Transition.histpan t) i
+    wait i t = transition tidal True (Sound.Tidal.Transition.wait t) i
+    waitT i f t = transition tidal True (Sound.Tidal.Transition.waitT f t) i
+    jump i = transition tidal True (Sound.Tidal.Transition.jump) i
+    jumpIn i t = transition tidal True (Sound.Tidal.Transition.jumpIn t) i
+    jumpIn' i t = transition tidal True (Sound.Tidal.Transition.jumpIn' t) i
+    jumpMod i t = transition tidal True (Sound.Tidal.Transition.jumpMod t) i
+    mortal i lifespan release = transition tidal True (Sound.Tidal.Transition.mortal lifespan release) i
+    interpolate i = transition tidal True (Sound.Tidal.Transition.interpolate) i
+    interpolateIn i t = transition tidal True (Sound.Tidal.Transition.interpolateIn t) i
+    clutch i = transition tidal True (Sound.Tidal.Transition.clutch) i
+    clutchIn i t = transition tidal True (Sound.Tidal.Transition.clutchIn t) i
+    anticipate i = transition tidal True (Sound.Tidal.Transition.anticipate) i
+    anticipateIn i t = transition tidal True (Sound.Tidal.Transition.anticipateIn t) i
+    forId i t = transition tidal False (Sound.Tidal.Transition.mortalOverlay t) i
+
+:set prompt "tidal> "
+:set prompt-cont ""
