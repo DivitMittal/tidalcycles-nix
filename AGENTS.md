@@ -1,5 +1,7 @@
 ## Project Overview
 
+- @docs/
+
 tidalcycles-nix is a comprehensive, standalone Nix flake providing a home-manager module for TidalCycles live coding. It manages TidalCycles (Haskell), SuperCollider, and SuperDirt with extensive configuration options, separate Haskell boot script profiles, helper scripts, and cross-platform support (NixOS, nix-darwin, standalone home-manager).
 
 ## Development Commands
