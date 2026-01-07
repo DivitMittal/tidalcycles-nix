@@ -8,6 +8,7 @@
     mkFlake {inherit inputs specialArgs;} ({inputs, ...}: {
       systems = import inputs.systems;
       imports = [
+        ./lib
         ./flake
         ./profiles
         ./modules
