@@ -352,35 +352,6 @@ See the [examples/](examples/) directory for complete configuration examples:
 
 ---
 
-## Development
-
-```bash
-# Enter development environment
-nix develop
-
-# Format code
-nix fmt
-
-# Run checks
-nix flake check
-
-# Update dependencies
-nix flake update
-```
-
----
-
-## Contributing
-
-Contributions are welcome! Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Run `nix fmt` before committing
-4. Submit a pull request
-
----
-
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details
