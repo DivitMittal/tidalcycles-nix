@@ -1,56 +1,131 @@
-# TidalCycles Nix
+<h1 align='center'>tidalcycles-nix</h1>
+<div align='center'>
+    <p>A comprehensive, standalone Nix flake providing a home-manager module for the <a href="https://tidalcycles.org/">TidalCycles</a> live coding environment.</p>
+    <div align='center'>
+  <a href='https://github.com/DivitMittal/tidalcycles-nix'>
+  <img src='https://img.shields.io/github/repo-size/DivitMittal/tidalcycles-nix?&style=for-the-badge&logo=github'>
+  </a>
+  <a href='https://github.com/DivitMittal/tidalcycles-nix/blob/master/LICENSE'>
+  <img src='https://img.shields.io/static/v1.svg?style=for-the-badge&label=License&message=MIT&logo=unlicense'/>
+  </a>
+    </div>
+    <br>
+</div>
 
-A comprehensive NixOS/home-manager module for [TidalCycles](https://tidalcycles.org/) live coding environment.
+---
+
+<div align='center'>
+    <a href="https://github.com/DivitMittal/tidalcycles-nix/actions/workflows/flake-check.yml">
+  <img src="https://github.com/DivitMittal/tidalcycles-nix/actions/workflows/flake-check.yml/badge.svg" alt="nix-flake-check"/>
+    </a>
+    <a href="https://github.com/DivitMittal/tidalcycles-nix/actions/workflows/flake-lock-update.yml">
+  <img src="https://github.com/DivitMittal/tidalcycles-nix/actions/workflows/flake-lock-update.yml/badge.svg" alt="flake-lock-update"/>
+    </a>
+</div>
+
+---
+
+This Nix flake manages TidalCycles (Haskell), SuperCollider, and SuperDirt with extensive configuration options, separate Haskell boot script profiles, helper scripts, and cross-platform support (NixOS, nix-darwin, standalone home-manager).
 
 ## Features
 
-- 🎵 **Complete TidalCycles setup** - Haskell library, SuperCollider, and SuperDirt
-- 🔧 **Highly configurable** - Extensive options for customization
-- 🚀 **Multiple profiles** - Minimal, standard, performance, and studio configurations
-- 🎹 **MIDI & OSC support** - Control hardware synths and external applications
-- 💻 **Editor integration** - Vim, Emacs, VS Code support
-- 🍎 **Cross-platform** - Works on NixOS, nix-darwin (macOS), and standalone home-manager
-- 📦 **Helper scripts** - Easy installation and management tools
-- 🎨 **Separate Haskell files** - Clean, modular boot script organization
+### Complete TidalCycles Setup
 
-## Quick Start
+The module provides a fully integrated TidalCycles environment, including:
+- **TidalCycles** Haskell library for pattern-based live coding
+- **SuperCollider** audio synthesis engine
+- **SuperDirt** sample-based synthesizer for TidalCycles
 
-### 1. Add to your flake inputs
+### Highly Configurable
+
+Extensive configuration options allow you to customize every aspect of your setup:
+- **Boot script profiles** with separate Haskell files (minimal, standard, extended, midi)
+- **SuperCollider server optimization** (buffer sizes, memory allocation, sample rates)
+- **Connection parameters** (latency, port, address configuration)
+- **Custom boot scripts** for advanced users
+
+### Multiple Profiles
+
+Pre-configured profiles for different use cases:
+- **Minimal** - Lightweight setup for beginners or low-resource systems
+- **Standard** - Balanced configuration for most users (recommended)
+- **Performance** - Optimized for complex patterns and live performance
+- **Studio** - Full-featured setup with MIDI, OSC, and advanced options
+
+### MIDI & OSC Support
+
+Control hardware synthesizers and external applications:
+- Multi-device MIDI configuration with per-device latency settings
+- OSC (Open Sound Control) target configuration
+- Declarative device management through Nix
+
+### Editor Integration
+
+Support for popular text editors:
+- **Vim/Neovim** integration
+- **Emacs** configuration
+- **VS Code** extension support
+- **Atom** (legacy) support
+
+### Cross-Platform
+
+Works seamlessly across different platforms:
+- **NixOS** - Native integration with system audio
+- **nix-darwin** - macOS support with platform-specific optimizations
+- **Standalone home-manager** - Use on any Linux distribution with Nix
+
+### Helper Scripts
+
+Convenient scripts for common tasks:
+- `install-superdirt` - Install SuperDirt quarks in SuperCollider
+- `install-sc3-plugins` - Install SC3-Plugins (macOS only)
+- `start-superdirt` - Start the SuperDirt audio engine
+- `tidal-repl` - Launch TidalCycles REPL with configured boot script
+- `sclang` - SuperCollider interpreter wrapper
+
+## Flakes Usage
+
+To use this module in your own configuration, add it to your `flake.nix` inputs:
 
 ```nix
+## flake.nix
 {
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager";
-    tidalcycles-nix.url = "github:yourusername/tidalcycles-nix";
+    tidalcycles-nix.url = "github:DivitMittal/tidalcycles-nix";
   };
-}
-```
 
-### 2. Import the module
-
-```nix
-{
-  outputs = {nixpkgs, home-manager, tidalcycles-nix, ...}: {
-    homeConfigurations.yourusername = home-manager.lib.homeManagerConfiguration {
-      pkgs = import nixpkgs {system = "x86_64-linux";};
+  outputs = { self, nixpkgs, home-manager, tidalcycles-nix, ... }: {
+    homeConfigurations.your-user = home-manager.lib.homeManagerConfiguration {
+      pkgs = nixpkgs.legacyPackages.x86_64-linux; # Or your system
       modules = [
+        ## Import the module
         tidalcycles-nix.homeManagerModules.default
-        {
-          programs.tidalcycles = {
-            enable = true;
-            boot.profile = "standard";
-            supercollider.enable = true;
-            superdirt.enable = true;
-          };
-        }
+
+        ## Your other modules
+        ./home.nix
       ];
     };
   };
 }
 ```
 
-### 3. Rebuild and install
+Then, enable it in your `home.nix`:
+
+```nix
+## home.nix
+{
+  programs.tidalcycles = {
+    enable = true;
+    boot.profile = "standard";
+    supercollider.enable = true;
+    superdirt.enable = true;
+  };
+}
+```
+
+**Rebuild and Install:**
 
 ```bash
 # For home-manager
@@ -68,6 +143,8 @@ start-superdirt
 # In another terminal, start TidalCycles
 tidal-repl
 ```
+
+---
 
 ## Configuration Profiles
 
@@ -94,6 +171,8 @@ Full-featured setup with MIDI, OSC, and advanced options:
 ```nix
 programs.tidalcycles = tidalcycles-nix.profiles.studio;
 ```
+
+---
 
 ## Advanced Configuration
 
@@ -180,9 +259,13 @@ programs.tidalcycles = {
 };
 ```
 
+---
+
 ## Module Options
 
 See [modules/home-manager/README.md](modules/home-manager/README.md) for complete option documentation.
+
+---
 
 ## Helper Scripts
 
@@ -209,6 +292,8 @@ You can also provide your own custom boot script:
 programs.tidalcycles.boot.customScript = ./my-boot.hs;
 ```
 
+---
+
 ## Platform-Specific Notes
 
 ### macOS (nix-darwin)
@@ -227,6 +312,8 @@ programs.tidalcycles.boot.customScript = ./my-boot.hs;
 
 - Works on any Linux distribution with Nix installed
 - Requires manual audio setup
+
+---
 
 ## Troubleshooting
 
@@ -253,6 +340,8 @@ Check your SuperCollider device configuration:
 programs.tidalcycles.supercollider.server.device = "Your Audio Interface";
 ```
 
+---
+
 ## Examples
 
 See the [examples/](examples/) directory for complete configuration examples:
@@ -260,6 +349,8 @@ See the [examples/](examples/) directory for complete configuration examples:
 - [basic.nix](examples/basic.nix) - Minimal working setup
 - [advanced.nix](examples/advanced.nix) - Full-featured configuration
 - [midi-focused.nix](examples/midi-focused.nix) - Hardware synth control
+
+---
 
 ## Development
 
@@ -277,6 +368,8 @@ nix flake check
 nix flake update
 ```
 
+---
+
 ## Contributing
 
 Contributions are welcome! Please:
@@ -286,9 +379,13 @@ Contributions are welcome! Please:
 3. Run `nix fmt` before committing
 4. Submit a pull request
 
+---
+
 ## License
 
 MIT License - see [LICENSE](LICENSE) for details
+
+---
 
 ## Resources
 
@@ -296,6 +393,8 @@ MIT License - see [LICENSE](LICENSE) for details
 - [SuperCollider Documentation](https://doc.sccode.org/)
 - [SuperDirt Documentation](https://github.com/musikinformatik/SuperDirt)
 - [Nix Home Manager](https://github.com/nix-community/home-manager)
+
+---
 
 ## Credits
 
