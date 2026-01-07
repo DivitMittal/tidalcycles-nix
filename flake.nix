@@ -3,7 +3,8 @@
 
   outputs = inputs: let
     inherit (inputs.flake-parts.lib) mkFlake;
-    specialArgs.customLib = import (inputs.OS-nixCfg + "/lib/custom.nix") {inherit (inputs.nixpkgs) lib;};
+    # Use local lib instead of OS-nixCfg dependency
+    specialArgs.customLib = import ./lib/custom.nix {inherit (inputs.nixpkgs) lib;};
   in
     mkFlake {inherit inputs specialArgs;} ({inputs, ...}: {
       systems = import inputs.systems;
@@ -38,10 +39,6 @@
         flake-parts.follows = "flake-parts";
         git-hooks.follows = "git-hooks";
       };
-    };
-    OS-nixCfg = {
-      url = "github:DivitMittal/OS-nixCfg";
-      flake = false;
     };
   };
 }
