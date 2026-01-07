@@ -11,7 +11,7 @@ Add to your `flake.nix`:
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     home-manager.url = "github:nix-community/home-manager";
-    tidalcycles-nix.url = "github:yourusername/tidalcycles-nix";
+    tidalcycles-nix.url = "github:DivitMittal/tidalcycles-nix";
   };
 
   outputs = {nixpkgs, home-manager, tidalcycles-nix, ...}: {
