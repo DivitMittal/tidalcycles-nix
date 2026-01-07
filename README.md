@@ -352,12 +352,6 @@ See the [examples/](examples/) directory for complete configuration examples:
 
 ---
 
-## License
-
-MIT License - see [LICENSE](LICENSE) for details
-
----
-
 ## Resources
 
 - [TidalCycles Documentation](https://tidalcycles.org/docs/)
