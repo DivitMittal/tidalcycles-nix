@@ -95,7 +95,7 @@
     mkdir -p "$SC_EXTENSIONS"
 
     if [ -d "${pkgs.sc3-plugins or ""}/lib/SuperCollider/plugins" ]; then
-      ln -sf "${pkgs.sc3-plugins}/lib/SuperCollider/plugins" "$SC_EXTENSIONS/SC3plugins"
+      ln -sf "${pkgs.sc3-plugins or ""}/lib/SuperCollider/plugins" "$SC_EXTENSIONS/SC3plugins"
       echo "SC3 Plugins installed successfully!"
     else
       echo "Error: sc3-plugins package not found in nixpkgs"
