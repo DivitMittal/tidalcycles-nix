@@ -1,22 +1,8 @@
-root = true
-
 [*]
-end_of_line = lf
-insert_final_newline = true
-charset = utf-8
-trim_trailing_whitespace = true
-
-[*.nix]
-indent_style = space
-indent_size = 2
-
-[*.hs]
-indent_style = space
-indent_size = 2
-
-[*.scd]
-indent_style = space
-indent_size = 2
-
-[*.md]
-trim_trailing_whitespace = false
+charset=utf-8
+end_of_line=lf
+indent_size=2
+indent_style=space
+insert_final_newline=true
+spelling_language=en-US
+trim_trailing_whitespace=true

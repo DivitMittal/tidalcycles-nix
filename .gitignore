@@ -1,15 +1,13 @@
-# Nix
+## macOS finder metadata
+**/.DS_Store
+
+## disabled parts of configuration
+**/disabled/
+
+## nix builds & caching
+.direnv
 result
 result-*
-.direnv/
-.envrc
 
-# Editor
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# macOS
-.DS_Store
+## git pre-commit hooks (handled via cachix/git-hooks)
+.pre-commit-config.yaml
