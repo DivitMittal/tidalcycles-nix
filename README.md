@@ -102,7 +102,7 @@ programs.tidalcycles = tidalcycles-nix.profiles.studio;
 ```nix
 programs.tidalcycles = {
   enable = true;
-  
+
   boot = {
     profile = "extended";
     orbits = 16;
@@ -123,7 +123,7 @@ programs.tidalcycles = {
 ```nix
 programs.tidalcycles = {
   enable = true;
-  
+
   midi = {
     enable = true;
     devices = [
@@ -147,7 +147,7 @@ programs.tidalcycles = {
 ```nix
 programs.tidalcycles = {
   enable = true;
-  
+
   superdirt.samples = {
     extraDirs = [
       "${config.home.homeDirectory}/Music/samples"
@@ -169,7 +169,7 @@ programs.tidalcycles = {
 ```nix
 programs.tidalcycles = {
   enable = true;
-  
+
   supercollider.server = {
     numBuffers = 1024 * 512;
     memSize = 8192 * 64;
