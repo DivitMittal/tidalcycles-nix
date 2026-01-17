@@ -595,7 +595,7 @@ in {
     # Post-installation message
     {
       home.activation.tidalcyclesInfo = lib.hm.dag.entryAfter ["writeBoundary"] ''
-        if [ "$VERBOSE" = "1" ]; then
+        if [ "${VERBOSE:-0}" = "1" ]; then
           echo ""
           echo "TidalCycles has been installed!"
           echo ""
