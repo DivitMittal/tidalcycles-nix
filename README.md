@@ -364,3 +364,7 @@ See the [examples/](examples/) directory for complete configuration examples:
 ## Credits
 
 This module was created to make TidalCycles more accessible to the Nix community. It builds upon the excellent work of the TidalCycles, SuperCollider, and SuperDirt communities.
+
+## Related Repositories
+
+- [DivitMittal/OS-nixCfg](https://github.com/DivitMittal/OS-nixCfg): Main Nix configurations repository
