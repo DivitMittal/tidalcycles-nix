@@ -17,16 +17,7 @@ nix flake update         # Update all inputs
 ### Formatting and Linting
 ```bash
 nix fmt                  # Format all Nix files (alejandra, deadnix, statix)
-alejandra .              # Nix formatting only
-deadnix -e               # Find and report dead Nix code
-statix check             # Lint Nix code for anti-patterns
 ```
-
-### Pre-commit Hooks
-Pre-commit hooks are automatically installed when entering `nix develop`:
-- alejandra (Nix formatting)
-- deadnix (dead code detection)
-- statix (Nix linting)
 
 ### Testing Module Integration
 ```bash
@@ -95,13 +86,6 @@ tidalcycles-nix/
     ├── advanced.nix
     └── midi-focused.nix
 ```
-
-### Key Dependencies
-- **flake-parts**: Modular flake organization
-- **nixpkgs-unstable**: Latest packages (TidalCycles, SuperCollider)
-- **devshell**: Development environment setup
-- **treefmt-nix**: Code formatting configuration
-- **git-hooks**: Pre-commit hook management
 
 ### Module Architecture
 
@@ -233,18 +217,6 @@ scPath =
 - Use `lib.optionalAttrs` over `if-then-else {}`
 - Use `lib.filterAttrs` to remove null/empty values
 - Follow .editorconfig: 2-space indent, LF endings, UTF-8
-
-**Formatting is enforced**:
-- alejandra: Nix formatting
-- deadnix: Removes unused let bindings, function args
-- statix: Lints anti-patterns
-
-**Pre-commit checks catch**:
-- Unformatted code
-- Large files (> 500KB)
-- Trailing whitespace
-- Missing shebangs on executables
-- Private keys in commits
 
 ### Haskell Boot Script Conventions
 
@@ -380,14 +352,4 @@ inputs.tidalcycles-nix = {
     superdirt.enable = true;
   };
 }
-```
-
-The flake uses path-based input during development:
-```nix
-url = "path:/Users/div/Projects/tidalcycles-nix";
-```
-
-Switch to GitHub URL when publishing:
-```nix
-url = "github:DivitMittal/tidalcycles-nix";
 ```

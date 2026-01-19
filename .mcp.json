@@ -13,11 +13,6 @@
         "--project",
         "~/Projects/Cfgs/tidalcycles-nix/"
       ]
-    },
-    "nixos": {
-      "type": "stdio",
-      "command": "uvx",
-      "args": ["mcp-nixos"]
     }
   }
 }
