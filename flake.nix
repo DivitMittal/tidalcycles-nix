@@ -3,8 +3,7 @@
 
   outputs = inputs: let
     inherit (inputs.flake-parts.lib) mkFlake;
-    # Use local lib instead of OS-nixCfg dependency
-    specialArgs.customLib = import ./lib/custom.nix {inherit (inputs.nixpkgs) lib;};
+    specialArgs.customLib.scanPaths = path: (inputs.import-tree path).files;
   in
     mkFlake {inherit inputs specialArgs;} ({inputs, ...}: {
       systems = import inputs.systems;
@@ -40,5 +39,6 @@
         git-hooks.follows = "git-hooks";
       };
     };
+    import-tree.url = "github:vic/import-tree";
   };
 }
