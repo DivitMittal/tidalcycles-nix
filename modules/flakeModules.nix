@@ -2,7 +2,7 @@ _: {
   flake = {
     # Home-manager modules
     homeManagerModules = {
-      default = ./home-manager;
+      default = ./home-manager/tidalcycles.nix;
       tidalcycles = ./home-manager/tidalcycles.nix;
       supercollider = ./home-manager/supercollider.nix;
       superdirt = ./home-manager/superdirt.nix;
@@ -10,7 +10,7 @@ _: {
 
     # NixOS modules (optional system-level config)
     nixosModules = {
-      default = ./nixos;
+      default = ./nixos/audio.nix;
       audio = ./nixos/audio.nix;
     };
   };
