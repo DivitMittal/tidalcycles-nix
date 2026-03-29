@@ -3,15 +3,14 @@
 
   outputs = inputs: let
     inherit (inputs.flake-parts.lib) mkFlake;
-    specialArgs.customLib.scanPaths = path: [ (inputs.import-tree.matchNot ".*/default\\.nix" path) ];
   in
-    mkFlake {inherit inputs specialArgs;} ({inputs, ...}: {
+    mkFlake {inherit inputs;} ({inputs, ...}: {
       systems = import inputs.systems;
       imports = [
-        ./lib
-        ./flake
-        ./profiles
-        ./modules
+        ./lib/exports.nix
+        (inputs.import-tree ./flake)
+        ./profiles/profiles.nix
+        ./modules/flakeModules.nix
       ];
     });
 
