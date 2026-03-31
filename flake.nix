@@ -7,10 +7,10 @@
     mkFlake {inherit inputs;} ({inputs, ...}: {
       systems = import inputs.systems;
       imports = [
-        ./lib/exports.nix
         (inputs.import-tree ./flake)
-        ./profiles/profiles.nix
-        ./modules/flakeModules.nix
+        ./lib
+        ./profiles
+        ./modules
       ];
     });
 
