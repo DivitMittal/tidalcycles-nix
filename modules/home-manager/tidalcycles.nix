@@ -512,7 +512,7 @@ in {
 
     # sclang wrapper
     (mkIf (cfg.helpers.wrapSclang && cfg.supercollider.enable) {
-      home.packages = [sclangWrapperScript];
+      home.packages = [(lib.hiPrio sclangWrapperScript)];
     })
 
     # Boot script installation
