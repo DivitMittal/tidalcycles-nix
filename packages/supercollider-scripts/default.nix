@@ -40,7 +40,8 @@
       else "";
 
     # Perform string replacements to inject configuration values
-    configuredScript = builtins.replaceStrings
+    configuredScript =
+      builtins.replaceStrings
       [
         "s.options.numBuffers = 1024 * 256;"
         "s.options.numBuffers = 1024 * 512;"
@@ -91,9 +92,9 @@
       then
         # Insert extraConfig before the final closing braces/parens
         lib.strings.replaceStrings
-          ["    };\n  };\n)"]
-          ["    };\n\n    // Extra configuration\n${extraConfig}\n  };\n)"]
-          configuredScript
+        ["    };\n  };\n)"]
+        ["    };\n\n    // Extra configuration\n${extraConfig}\n  };\n)"]
+        configuredScript
       else configuredScript;
   in
     pkgs.writeText "start-superdirt.scd" finalScript;
