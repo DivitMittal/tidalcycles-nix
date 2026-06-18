@@ -26,6 +26,8 @@
             ## Nix
             nixd
             alejandra
+            ## AI context
+            apm-cli
             ;
         };
       };

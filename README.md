@@ -141,3 +141,7 @@ See [examples/](examples/) for complete working configs and [modules/home-manage
 
 - [DivitMittal/OS-nixCfg](https://github.com/DivitMittal/OS-nixCfg) — main Nix configurations
 - [TidalCycles docs](https://tidalcycles.org/docs/) · [SuperCollider docs](https://doc.sccode.org/) · [SuperDirt](https://github.com/musikinformatik/SuperDirt) · [home-manager](https://github.com/nix-community/home-manager)
+
+## For AI Agents
+
+Context files (`AGENTS.md`, `CLAUDE.md`) are generated — not committed. Run `apm compile` before exploring the repo to get directory-level guidance.
