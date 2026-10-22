@@ -26,9 +26,13 @@
             ## Nix
             nixd
             alejandra
-            ## AI context
-            apm-cli
             ;
+          ## AI context. apm-cli isn't in nixpkgs-26.05-darwin (x86_64-darwin);
+          ## run the same PyPI release (microsoft/apm) ephemerally via uv there.
+          apm-cli =
+            pkgs.apm-cli or (pkgs.writeShellScriptBin "apm" ''
+              exec ${pkgs.uv}/bin/uv tool run --from apm-cli apm "$@"
+            '');
         };
       };
     };
