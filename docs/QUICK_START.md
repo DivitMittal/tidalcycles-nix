@@ -43,6 +43,9 @@ That's it! Rebuild your home-manager configuration.
 After rebuilding, run these commands in order:
 
 ```bash
+# 0. (macOS only) Install SuperCollider.app; nixpkgs doesn't build it for darwin
+brew install --cask supercollider
+
 # 1. Install SuperDirt quarks (one-time setup)
 install-superdirt
 
