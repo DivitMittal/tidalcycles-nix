@@ -456,8 +456,8 @@ Performance-tuned configuration with:
 
 ## Contributing
 
-This module is part of the [tidalcycles-nix](https://github.com/yourusername/tidalcycles-nix) project.
+This module is part of the [tidalcycles-nix](https://github.com/DivitMittal/tidalcycles-nix) project.
 
 ## License
 
-MIT
+HONCL-1.0 — see [LICENSE](../../LICENSE).
