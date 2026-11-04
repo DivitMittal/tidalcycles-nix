@@ -62,6 +62,8 @@ programs.tidalcycles = {
 };
 ```
 
+On macOS, install SuperCollider.app first (`brew install --cask supercollider`). The helper scripts use `/Applications/SuperCollider.app/Contents/MacOS/sclang` by default; override with `supercollider.sclangPath` or `supercollider.package`.
+
 Then rebuild, install SuperDirt, and start:
 
 ```bash
@@ -134,7 +136,7 @@ See [examples/](examples/) for complete working configs and [modules/home-manage
 | Platform | Notes |
 |---|---|
 | NixOS | SC3-Plugins in nixpkgs; JACK/ALSA audio |
-| nix-darwin | SC3-Plugins via `install-sc3-plugins`; CoreAudio |
+| nix-darwin | SuperCollider from `brew install --cask supercollider` (nixpkgs' build is Linux-only); SC3-Plugins via `install-sc3-plugins`; CoreAudio |
 | Standalone | Any Linux with Nix; manual audio setup |
 
 ## Related

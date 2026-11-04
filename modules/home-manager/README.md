@@ -103,8 +103,12 @@ Fine-tune SuperCollider server settings:
     supercollider = {
       enable = true;
 
-      # Use a specific package
+      # Use a specific package (default: pkgs.supercollider on Linux, none on macOS)
       package = pkgs.supercollider;
+
+      # Path to sclang used by helper scripts (defaults to the package's
+      # bin/sclang, or SuperCollider.app on macOS)
+      # sclangPath = "/Applications/SuperCollider.app/Contents/MacOS/sclang";
 
       serverOptions = {
         numBuffers = 1024 * 256;
@@ -337,6 +341,8 @@ Performance-tuned configuration with:
 ## Platform Differences
 
 ### macOS
+- SuperCollider is not installed by Nix (nixpkgs' `supercollider` is Linux-only); install it with `brew install --cask supercollider`
+- Helper scripts call `/Applications/SuperCollider.app/Contents/MacOS/sclang`; set `supercollider.sclangPath` for another location, or `supercollider.package` to use a package such as `pkgs.brewCasks.supercollider`
 - Uses CoreAudio driver
 - SC3 plugins require separate installation via `install-sc3-plugins`
 - Extensions directory: `~/Library/Application Support/SuperCollider/Extensions`

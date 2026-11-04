@@ -21,13 +21,19 @@
   inherit (pkgs.stdenv) isDarwin;
   inherit (pkgs.stdenv) isLinux;
 
-  # SuperCollider package selection based on platform and user preference
+  # nixpkgs' supercollider is Linux-only, so on darwin there is no default
+  # package: sclang comes from the SuperCollider.app bundle instead (installed
+  # via `brew install --cask supercollider` or the official DMG).
   superColliderPackage =
     if cfg.supercollider.package != null
     then cfg.supercollider.package
     else if isDarwin
-    then pkgs.supercollider
+    then null
     else pkgs.supercollider;
+
+  darwinAppSclang = "/Applications/SuperCollider.app/Contents/MacOS/sclang";
+
+  inherit (cfg.supercollider) sclangPath;
 
   # Generate boot script based on configuration
   bootScript = bootScripts.mkBootScript {
@@ -76,7 +82,7 @@
     echo "This may take several minutes on first run."
     echo ""
 
-    ${superColliderPackage}/bin/sclang ${installScript}
+    ${lib.escapeShellArg sclangPath} ${installScript}
 
     echo ""
     echo "SuperDirt installation complete!"
@@ -111,7 +117,7 @@
     echo "Press Ctrl+C to stop."
     echo ""
 
-    ${superColliderPackage}/bin/sclang ${startScript}
+    ${lib.escapeShellArg sclangPath} ${startScript}
   '';
 
   # Helper script to start Tidal REPL
@@ -142,7 +148,7 @@
     export SC_JACK_DEFAULT_OUTPUTS="${toString cfg.supercollider.serverOptions.numOutputBusChannels}"
 
     # Execute sclang with all arguments
-    exec ${superColliderPackage}/bin/sclang "$@"
+    exec ${lib.escapeShellArg sclangPath} "$@"
   '';
 
   # Generate MIDI configuration code for boot script
@@ -282,7 +288,28 @@ in {
         default = null;
         description = ''
           SuperCollider package to use.
-          If null, uses the default package for your platform.
+          If null, uses `pkgs.supercollider` on Linux. On macOS no package
+          is installed (nixpkgs' supercollider is Linux-only); `sclang` is
+          taken from SuperCollider.app instead, see `sclangPath`.
+        '';
+      };
+
+      sclangPath = mkOption {
+        type = types.str;
+        default =
+          if superColliderPackage != null
+          then "${superColliderPackage}/bin/sclang"
+          else darwinAppSclang;
+        defaultText = lib.literalExpression ''
+          if package != null then "''${package}/bin/sclang"
+          else if isDarwin then "${darwinAppSclang}"
+          else "''${pkgs.supercollider}/bin/sclang"
+        '';
+        example = "/Users/me/Applications/SuperCollider.app/Contents/MacOS/sclang";
+        description = ''
+          Path to the `sclang` executable used by the helper scripts.
+          On macOS this defaults to the SuperCollider.app bundle, so install
+          it with `brew install --cask supercollider` or the official DMG.
         '';
       };
 
@@ -491,7 +518,7 @@ in {
     {
       home.packages =
         [cfg.package]
-        ++ optional cfg.supercollider.enable superColliderPackage
+        ++ optional (cfg.supercollider.enable && superColliderPackage != null) superColliderPackage
         ++ optional cfg.development.enableGhc pkgs.ghc
         ++ optional cfg.development.enableCabal pkgs.cabal-install
         ++ optional cfg.development.enableStack pkgs.stack
