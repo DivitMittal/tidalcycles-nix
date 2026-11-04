@@ -200,8 +200,13 @@ in {
 
     package = mkOption {
       type = types.package;
-      default = pkgs.haskellPackages.tidal;
-      description = "The TidalCycles package to use.";
+      default = pkgs.haskellPackages.ghcWithPackages (ps: [ps.tidal]);
+      defaultText = lib.literalExpression "pkgs.haskellPackages.ghcWithPackages (ps: [ps.tidal])";
+      description = ''
+        The TidalCycles package to use.
+        Must be a GHC environment that provides `bin/ghci` with
+        `Sound.Tidal.Context` available (e.g. `ghcWithPackages`).
+      '';
     };
 
     ## Boot Configuration
@@ -471,7 +476,13 @@ in {
 
     ## Development Options
     development = {
-      enableGhc = mkEnableOption "Install GHC for Haskell development" // {default = true;};
+      enableGhc = mkEnableOption ''
+        Install a standalone GHC alongside the TidalCycles package.
+        Only needed when `package` is set to a bare library (e.g.
+        `pkgs.haskellPackages.tidal`) instead of a `ghcWithPackages`
+        environment. Defaults to false because the default `package`
+        already provides GHC with tidal in its package database.
+      '';
 
       extraHaskellPackages = mkOption {
         type = types.listOf types.package;
