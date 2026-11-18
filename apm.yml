@@ -2,7 +2,7 @@ name: tidalcycles-nix
 version: 1.0.0
 description: Comprehensive home-manager module for TidalCycles live coding (Haskell, SuperCollider, SuperDirt)
 author: DivitMittal
-license: MIT
+license: LicenseRef-HONCL-1.0
 target: all
 type: instructions
 
